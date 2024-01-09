@@ -3,7 +3,7 @@ use serde::Deserialize;
 
 
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct User {
     pub id: uuid::Uuid,
     pub name: String,

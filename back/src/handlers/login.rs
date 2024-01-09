@@ -1,8 +1,13 @@
 use std::sync::Arc;
 
-use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
+use axum::{
+    extract::State,
+    http::{header, Response, StatusCode},
+    response::IntoResponse,
+    Json,
+};
+use axum_extra::extract::cookie::{Cookie, SameSite};
 use serde::{Deserialize, Serialize};
-
 #[derive(Deserialize)]
 pub struct Login {
     email: String,
@@ -10,7 +15,7 @@ pub struct Login {
 }
 
 #[derive(Serialize)]
-pub struct Response {
+pub struct LoginResponse {
     user_id: Option<uuid::Uuid>,
     message: String,
     token: Option<String>,
@@ -49,16 +54,27 @@ pub async fn login_handler(
     match user.verify_password(payload.password) {
         Ok(true) => {
             let claims = crate::util::jwt::Claims::new(user.id);
+
             let token = claims.mint().unwrap();
-            let response = Response {
+
+            let login_response = LoginResponse {
                 user_id: Some(user.id),
                 message: "User logged in successfully".to_string(),
-                token: Some(token),
+                token: Some(token.clone()),
             };
-            return Ok((
-                StatusCode::OK,
-                Json(serde_json::to_value(response).unwrap()),
-            ));
+
+            let cookie = Cookie::build(("token", token))
+                .path("/")
+                .same_site(SameSite::Lax)
+                .http_only(true);
+
+            let mut response = Response::new(serde_json::to_string(&login_response).unwrap());
+
+            response
+                .headers_mut()
+                .insert(header::SET_COOKIE, cookie.to_string().parse().unwrap());
+            
+            return Ok(response);
         }
         Ok(false) => {
             let error_response = serde_json::json!({

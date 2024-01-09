@@ -1,6 +1,9 @@
 use std::sync::Arc;
 
-use axum::routing::{get, post};
+use axum::{
+    middleware,
+    routing::{get, post},
+};
 use socketioxide::SocketIo;
 use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
 use tower_http::cors::{Any, CorsLayer};
@@ -23,7 +26,7 @@ async fn main() -> anyhow::Result<()> {
         .max_connections(10)
         .connect(&database_url)
         .await?;
-    
+
     info!("🐘 Connected to database");
 
     let (layer, io) = SocketIo::new_layer();
@@ -33,12 +36,17 @@ async fn main() -> anyhow::Result<()> {
         .allow_methods(Any)
         .allow_origin(Any)
         .allow_headers(Any);
-
+    let app_state = Arc::new(AppState { db: pool });
     let app = axum::Router::new()
         .route("/", get(|| async { "Hello, World!" }))
         .route("/register", post(handlers::register::register_handler))
         .route("/login", post(handlers::login::login_handler))
-        .with_state(Arc::new(AppState { db: pool }))
+        .route(
+            "/me",
+            get(handlers::me_handler::get_me_handler)
+                .route_layer(middleware::from_fn_with_state(app_state.clone(), util::jwt::auth)),
+        )
+        .with_state(app_state)
         .layer(layer)
         .layer(cors);
 
