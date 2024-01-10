@@ -9,13 +9,26 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@formkit/vue": "^1.4.0",
+    "axios": "^1.6.5",
+    "module-alias": "^2.2.3",
     "socket.io-client": "^4.7.3",
-    "vue": "^3.3.11"
+    "vue": "^3.4.7",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/vue": "^2.0.0",
     "@vitejs/plugin-vue": "^4.5.2",
+    "@vue/runtime-dom": "^3.4.7",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vue-tsc": "^1.8.25"
+  },
+  "_moduleAliases": {
+    "@": "src",
+    "@components": "src/components",
+    "@views": "src/views",
+    "@assets": "src/assets"
   }
 }
