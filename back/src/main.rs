@@ -39,8 +39,8 @@ async fn main() -> anyhow::Result<()> {
     let app_state = Arc::new(AppState { db: pool });
     let app = axum::Router::new()
         .route("/", get(|| async { "Hello, World!" }))
-        .route("/register", post(handlers::register::register_handler))
-        .route("/login", post(handlers::login::login_handler))
+        .route("/user/register", post(handlers::register::register_handler))
+        .route("/user/login", post(handlers::login::login_handler))
         .route(
             "/me",
             get(handlers::me_handler::get_me_handler)

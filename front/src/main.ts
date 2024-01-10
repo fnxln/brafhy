@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
-import './style.css'
 import App from './App.vue'
-
-createApp(App).mount('#app')
+import router from './router'
+import { plugin, defaultConfig } from '@formkit/vue'
+import config from './formkit.config'
+createApp(App).use(plugin, defaultConfig(config)).use(router).mount('#app') 
