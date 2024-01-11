@@ -9,10 +9,10 @@
                     <a class="a" href="https://github.com/fnxln/brafhy" target="_blank">GitHub</a>
                 </li>
                 <li>
-                    <router-link class="a" :to="{ name: 'Home' }">Home</router-link>
+                    <router-link :class="getLinkClass('Home')" :to="{ name: 'Home' }">Home</router-link>
                 </li>
                 <li>
-                    <router-link class="btn" :to="{ name: 'Login' }">Login</router-link>
+                    <router-link :class="getLinkClass('Login')" :to="{ name: 'Login' }">Login</router-link>
                 </li>
             </ul>
         </nav>
@@ -35,6 +35,11 @@ export default defineComponent({
     data() {
         return {
             logo: logo,
+        }
+    },
+    methods: {
+        getLinkClass(routeName: string) {
+            return this.route.name === routeName ? 'btn' : 'a';
         }
     }
 });
@@ -92,30 +97,38 @@ header nav ul li {
 
 header nav ul li .a {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     height: 100%;
     color: var(--secondary-color);
     text-decoration: none;
     font-size: 20px;
     font-weight: 500;
+    content: " ";
+}
+
+header nav ul li .a::after {
+    content: " ";
+    width: 0%;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.3s;
 }
 
 header nav ul li .a:hover {
     color: var(--primary-color);
 }
 
-header nav ul li .a:active {
-    color: var(--primary-color);
+header nav ul li .a:hover::after {
+    width: 100%;
 }
 
 header nav ul li .btn {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
     color: var(--primary-color);
     text-decoration: none;
     font-size: 20px;
@@ -123,14 +136,17 @@ header nav ul li .btn {
     background-color: transparent;
     border: none;
     cursor: pointer;
-
+    content: " ";
 }
 
-header nav ul li .btn:hover {
-    background-color: transparent;
-    color: var(--primary-color);
-    border-bottom: solid var(--primary-color) 1px;
+header nav ul li .btn::after {
+    content: " ";
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.3s;
 }
+
 
 @media screen and (max-width: 1400px) {
     header {

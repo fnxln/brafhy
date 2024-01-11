@@ -120,7 +120,6 @@ h1 {
 .frente,
 .verso {
     display: flex;
-    justify-content: space-around;
     flex-direction: column;
     position: absolute;
     height: 100%;
