@@ -32,7 +32,7 @@ footer {
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    background-color: #1e1e2e;
+    background-color: var(--secundary-color);
     color: rgb(197, 197, 197);
     bottom: 0;
     height: 100px;

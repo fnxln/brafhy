@@ -1,3 +1,8 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 *{
     margin: 0;
     padding: 0;
@@ -13,28 +18,16 @@
      /* Cor de fonte */
     --secondary-color: #f4e8cd;
     /* Cor de fundo */
-    --tertiary-color: #1e1e2e;
+    --tertiary-color: #212025;
     /* Cor de fundo secundária */
     --quaternary-color: #2e2e3e;
 }
 
 body{
     font-family: 'Poppins', sans-serif;
-    background-color: #1e1e2e;
+    background-color: #212025;
     color: #ffffff;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-}
-
-/* imput do tipo text e email */
-input[type="text"], input[type="email"], input[type="password"]{
-    width: 100%;
-    padding: 10px;
-    border: 1px solid rgb(68, 75, 77);
-    border-radius: 5px;
-    background-color: rgb(24, 26, 27);
-    color: #ffffff;
-    font-size: 16px;
-    margin-bottom: 10px;
 }
