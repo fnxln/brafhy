@@ -41,11 +41,8 @@ async fn main() -> anyhow::Result<()> {
         .route("/", get(|| async { "Hello, World!" }))
         .route("/user/register", post(handlers::register::register_handler))
         .route("/user/login", post(handlers::login::login_handler))
-        .route(
-            "/me",
-            get(handlers::me_handler::get_me_handler)
-                .route_layer(middleware::from_fn_with_state(app_state.clone(), util::jwt::auth)),
-        )
+        .route("/chat/create", post(handlers::chat_create::create_handler) .route_layer(middleware::from_fn_with_state(app_state.clone(), util::jwt::auth)),)
+        .route( "/me", get(handlers::me_handler::get_me_handler) .route_layer(middleware::from_fn_with_state(app_state.clone(), util::jwt::auth)),)
         .with_state(app_state)
         .layer(layer)
         .layer(cors);

@@ -177,4 +177,21 @@ export default defineComponent({
 .buttons button:hover {
     background-color: rgb(53, 57, 59);
 }
+
+@media screen and (max-width: 768px) {
+    .carrossel {
+        height: 60vh;
+    }
+    .buttons {
+        display: none;
+    }
+
+    .slide-content h2 {
+        font-size: 2rem;
+    }
+
+    .slide-content p {
+        font-size: 1rem;
+    }
+}
 </style>

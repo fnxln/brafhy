@@ -18,14 +18,14 @@
      /* Cor de fonte */
     --secondary-color: #f4e8cd;
     /* Cor de fundo */
-    --tertiary-color: #212025;
+    --tertiary-color: #161622;
     /* Cor de fundo secundária */
     --quaternary-color: #2e2e3e;
 }
 
 body{
     font-family: 'Poppins', sans-serif;
-    background-color: #212025;
+    background-color: var(--tertiary-color);
     color: #ffffff;
     min-height: 100vh;
     display: flex;
