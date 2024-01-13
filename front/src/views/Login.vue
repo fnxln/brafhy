@@ -2,10 +2,10 @@
     <div class="login">
         <Header />
         <main>
-            <div class="box" id="1">
+            <div class="box" id="box1">
                 <img :src="img" alt="logo" />
             </div>
-            <div class="box" id="2">
+            <div class="box" id="box2">
                 <h2>Login</h2>
                 <FormKit 
                     type="email"
@@ -155,6 +155,20 @@ main {
   content: '✅';
   display: block;
   padding: 0.5em;
+}
+
+@media screen and (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+    .box {
+        width: 100%;
+    }
+
+    #box1 {
+        display: none;
+    }
+    
 }
 
 </style>

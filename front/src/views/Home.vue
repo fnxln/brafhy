@@ -5,7 +5,7 @@
             <Slides />
         </main>
         <Info />
-        <Cards />
+        <!-- <Cards /> -->
         <Footer />
     </div>
 </template>
@@ -14,7 +14,7 @@
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 import Slides from '../components/Slides.vue';
-import Cards from '../components/Cards.vue';
+// import Cards from '../components/Cards.vue';
 import Info from '../components/Info.vue';
 
 import { defineComponent } from 'vue';
@@ -24,7 +24,7 @@ export default defineComponent({
         Header,
         Footer,
         Slides,
-        Cards,
+        // Cards,
         Info
     }
 })

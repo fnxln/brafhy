@@ -1,3 +1,3 @@
-pub mod chats;
+pub mod chat;
 pub mod user;
 // pub mod messagesModels;

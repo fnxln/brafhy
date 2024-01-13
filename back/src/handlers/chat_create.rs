@@ -15,7 +15,7 @@ pub struct Response {
     message: String,
     token: Option<String>,
 }       
-pub async fn register_handler(
+pub async fn create_handler(
     State(pool): State<Arc<crate::AppState>>,
     Json(payload): Json<Register>,
 ) -> Result<impl IntoResponse, (StatusCode, Json<serde_json::Value>)> {
@@ -47,21 +47,14 @@ pub async fn register_handler(
             ));
         }
         Err(e) => {
-            if e.to_string()
-                .contains("duplicate key value violates unique constraint")
-            {
-                let error_response = serde_json::json!({
-                    "status": "fail",
-                    "message": "chat already exitsts",
-                });
-                return Err((StatusCode::CONFLICT, Json(error_response)));
-            }
+            let response = Response {
+                chat_id: None,
+                message: format!("failed to create chat: {}", e),
+                token: None,
+            };
             return Err((
-                StatusCode::INTERNAL_SERVER_ERROR,
-                Json(serde_json::json!({
-                    "status": "fail",
-                    "message": "Something went wrong",
-                })),
+                StatusCode::BAD_REQUEST,
+                Json(serde_json::to_value(response).unwrap()),
             ));
         }
     }
