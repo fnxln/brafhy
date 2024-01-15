@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  database:
+    image: postgres
+    container_name: "database-brafhy"
+    restart: always
+    ports:
+      - "3306:5432"
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - Brafhy
+      
+  server:
+    build: ./back
+    container_name: "server-brafhy"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    networks:
+      - Brafhy
+
+  client:
+    build: ./front
+    container_name: "client-brafhy"
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+    networks:
+      - Brafhy
+
+  
+
+  adminer:
+    image: adminer
+    container_name: "adminer-brafhy"
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - Brafhy
+
+networks:
+  Brafhy:
