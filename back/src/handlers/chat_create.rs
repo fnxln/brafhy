@@ -2,26 +2,29 @@ use std::sync::Arc;
 
 use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
+use crate::models::chat::Chat;
 
 #[derive(Deserialize)]
 pub struct Register {
     name: String,
-    creator: String,
+    creator: Uuid,
     password: String,
 }
+
 #[derive(Serialize)]
 pub struct Response {
-    chat_id: Option<uuid::Uuid>,
+    chat_id: Option<Uuid>,
     message: String,
     token: Option<String>,
-}       
+}
 pub async fn create_handler(
     State(pool): State<Arc<crate::AppState>>,
     Json(payload): Json<Register>,
 ) -> Result<impl IntoResponse, (StatusCode, Json<serde_json::Value>)> {
-    let new_chat = crate::models::chat::chat::new(payload.name, payload.email, payload.password);
+    let new_chat = Chat::new(payload.name, payload.creator, payload.password);
     let query_result = sqlx::query_as!(
-        crate::models::chat::chat,
+        Chat,
         "INSERT INTO chats (id, name, creator, password, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
         new_chat.id,
         new_chat.name,
